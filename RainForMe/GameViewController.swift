@@ -24,6 +24,8 @@ class GameViewController: UIViewController {
 			view.showsFPS = false
 			view.showsNodeCount = false
 		}
+		
+		SoundManager.sharedInstance.startPlaying()
 	}
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

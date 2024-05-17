@@ -19,12 +19,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	private var rainDropSpawnRate : TimeInterval = 0.4
 	private let random = GKARC4RandomSource()
 	
+	private let background = BackgroundSprite.newInstance()
 	private let cloud = CloudSprite.newInstance()
 	private var red : RedSprite!
 	private var redspot : RedSpot!
 	
 	// So that Red doesn't move too close to the edge of the screen
-	private let redMoveMargin : CGFloat = 50.0
+	private let redMoveMargin : CGFloat = 60.0
 	
 	// Call the rain
 	func spawnRaindrop() {
@@ -160,19 +161,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		// Put floor into FloorCategory and set its collision to RainDropCategory
 		floorNode.physicsBody?.categoryBitMask = FloorCategory
 		floorNode.physicsBody?.contactTestBitMask = RainDropCategory
-		
 		addChild(floorNode)
-		
-		// Declare background
-		let background = SKSpriteNode(imageNamed: "background")
-		background.position = CGPoint(x: frame.midX, y: frame.midY)
-		background.zPosition = 0
-		background.size = CGSize(width: self.size.width, height: self.size.height)
 
+		background.size = CGSize(width: self.size.width, height: self.size.height)
+		background.position = CGPoint(x: frame.midX, y: frame.midY)
 		addChild(background)
 		
 		cloud.position = CGPoint(x: frame.midX, y: frame.midY)
-		
 		addChild(cloud)
 		
 		spawnRed()
