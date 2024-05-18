@@ -13,8 +13,8 @@ public class RedSprite : SKSpriteNode {
 	private let movementSpeed : CGFloat = 170
 	private let runningActionKey = "action_running"
 	
-	private var idleTime : TimeInterval = 5
-	private let maxIdleTime : TimeInterval = 5
+	private var idleTime : TimeInterval = 4
+	private let maxIdleTime : TimeInterval = 4
 	
 	private let idleFrames = [
 		SKTexture(imageNamed: "red_idle0"),
@@ -51,18 +51,17 @@ public class RedSprite : SKSpriteNode {
 	}
 	
 	public func redIsIdle() {
-		idleTime = TimeInterval.random(in: 1.0...5.0)
-		removeAction(forKey: runningActionKey)
-	}
+		idleTime = TimeInterval.random(in: 1.0...4.0)
+		removeAction(forKey: runningActionKey)	}
 	
 	public func update(deltaTime : TimeInterval, moveLocation: CGPoint) {
 		idleTime += deltaTime
 		
 		if idleTime >= maxIdleTime {
 			if action(forKey: runningActionKey) == nil {
-				let runningAction = SKAction.repeatForever(
+				let runningAnimationAction = SKAction.repeatForever(
 					SKAction.animate(with: runFrames, timePerFrame: 0.1, resize: false, restore: true))
-				run(runningAction, withKey: runningActionKey)
+				run(runningAnimationAction, withKey: runningActionKey)
 			}
 			
 			// Set how Red will move

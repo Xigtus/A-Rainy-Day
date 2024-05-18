@@ -20,12 +20,10 @@ class GameViewController: UIViewController {
 			view.presentScene(sceneNode)
 			view.ignoresSiblingOrder = true
 
-			view.showsPhysics = false
+			view.showsPhysics = true
 			view.showsFPS = false
 			view.showsNodeCount = false
 		}
-		
-		SoundManager.sharedInstance.startPlaying()
 	}
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

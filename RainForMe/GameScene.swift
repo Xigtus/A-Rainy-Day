@@ -16,7 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	
 	// Randomize rain drops and set interval
 	private var currentRainDropSpawnTime : TimeInterval = 0
-	private var rainDropSpawnRate : TimeInterval = 0.4
+	private var rainDropSpawnRate : TimeInterval = 0.3
 	private let random = GKARC4RandomSource()
 	
 	private let background = BackgroundSprite.newInstance()
@@ -40,9 +40,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		rainDrop.position = CGPoint(x: randomPosition, y: size.height)
 		rainDrop.zPosition = 2
 		
-		// Put raindrop into RainDropCategory and set its collision to FloorCategory
+		// Put raindrop into RainDropCategory and set its collision to FloorCategory and RedSpotCategory
 		rainDrop.physicsBody?.categoryBitMask = RainDropCategory
-		rainDrop.physicsBody?.contactTestBitMask = FloorCategory
+		rainDrop.physicsBody?.contactTestBitMask = FloorCategory | RedSpotCategory
 		
 		addChild(rainDrop)
 	}
@@ -69,54 +69,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		moveToPosition = moveToPosition.truncatingRemainder(dividingBy: size.width - redMoveMargin * 2)
 		moveToPosition = CGFloat(abs(moveToPosition))
 		moveToPosition += redMoveMargin
-		redspot.position = CGPoint(x: moveToPosition, y: cloud.position.y / 3)
+		redspot.position = CGPoint(x: moveToPosition, y: cloud.position.y / 4)
 		
 		addChild(redspot)
 	}
 	
 	// Check raindrop collision
 	func didBegin(_ contact: SKPhysicsContact) {
+		// Check what collides with Rain Drop
 		if (contact.bodyA.categoryBitMask == RainDropCategory) {
 			contact.bodyA.node?.removeFromParent()
 			contact.bodyA.node?.physicsBody = nil
-			contact.bodyA.node?.removeAllActions()
 		} else if (contact.bodyB.categoryBitMask == RainDropCategory) {
 			contact.bodyB.node?.removeFromParent()
 			contact.bodyB.node?.physicsBody = nil
-			contact.bodyB.node?.removeAllActions()
 		}
 		
 		// Check what collides with Red Spot
 		if contact.bodyA.categoryBitMask == RedSpotCategory || contact.bodyB.categoryBitMask == RedSpotCategory {
-		  handleArrivedAtLocation(contact: contact)
+			handleArrivedAtLocation(contact: contact)
 			
-		  return
+			return
 		}
 		
 		// Check what collides with Red
 		if contact.bodyA.categoryBitMask == RedCategory || contact.bodyB.categoryBitMask == RedCategory {
 			handleRedCollision(contact: contact)
-
+			
 			return
 		}
 	}
 	
-	// If Red is hit
+	//If Red is hit
 	func handleRedCollision(contact: SKPhysicsContact) {
-	  var otherBody : SKPhysicsBody
-
-	  if contact.bodyA.categoryBitMask == RedCategory {
-		otherBody = contact.bodyB
-	  } else {
-		otherBody = contact.bodyA
-	  }
-
-	  switch otherBody.categoryBitMask {
-	  case RainDropCategory:
-		  print("Rain hit Red")
-	  default:
-		  print("Something hit Red")
-	  }
+		var otherBody : SKPhysicsBody
+		
+		if(contact.bodyA.categoryBitMask == RedCategory) {
+			otherBody = contact.bodyB
+		} else {
+			otherBody = contact.bodyA
+		}
+		
+		switch otherBody.categoryBitMask {
+		case RainDropCategory:
+			print("Rain hit Red")
+		default:
+			print("Something hit Red")
+		}
 	}
 	
 	// If Red Spot is hit
@@ -136,12 +135,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		case RedCategory:
 			print("Red has arrived")
 			red.redIsIdle()
-			fallthrough
-		case FloorCategory:
 			redSpotBody.node?.removeFromParent()
 			redSpotBody.node?.physicsBody = nil
-			contact.bodyA.node?.removeAllActions()
 			whereToMove()
+		case RainDropCategory:
+			print("Rain hit Red Spot")
 		default:
 			print("Red hasn't arrived")
 		}
@@ -151,6 +149,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		self.lastUpdateTime = 0
 		
 		self.physicsWorld.contactDelegate = self
+		
+		// Add music
+		let backgroundTrack = SoundManager.sharedInstance.startPlaying(soundName: "calm", fileExtension: "mp3")
+		backgroundTrack?.volume = 1.0
+		let ambienceTrack = SoundManager.sharedInstance.startPlaying(soundName: "rain", fileExtension: "mp3")
+		ambienceTrack?.volume = 0.3
 		
 		// Declare the floor
 		let floorNode = SKShapeNode(rectOf: CGSize(width: size.width, height: 5))

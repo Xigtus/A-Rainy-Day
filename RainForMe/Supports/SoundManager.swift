@@ -10,30 +10,32 @@ import AVFoundation
 class SoundManager : NSObject, AVAudioPlayerDelegate {
 	static let sharedInstance = SoundManager()
 	
-	var audioPlayer : AVAudioPlayer?
-	
-	public func startPlaying() {
-		if audioPlayer == nil || audioPlayer?.isPlaying == false {
-			let soundURL = Bundle.main.url(forResource: "calm", withExtension: "mp3")
-			
+	var audioPlayers: [AVAudioPlayer] = []
+
+	@discardableResult
+	public func startPlaying(soundName: String, fileExtension: String) -> AVAudioPlayer? {
+		if let soundURL = Bundle.main.url(forResource: soundName, withExtension: fileExtension) {
 			do {
-				audioPlayer = try AVAudioPlayer(contentsOf: soundURL!)
-				audioPlayer?.delegate = self
+				let audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+				audioPlayer.delegate = self
+				audioPlayer.numberOfLoops = -1
+				audioPlayers.append(audioPlayer)
+				audioPlayer.prepareToPlay()
+				audioPlayer.play()
+				return audioPlayer
 			} catch {
 				print("Audio player failed to load")
-
-				startPlaying()
+				return nil
 			}
-			
-			audioPlayer?.prepareToPlay()
-
-			audioPlayer?.play()
 		} else {
-			print("Audio player is already playing")
+			print("Sound file not found")
+			return nil
 		}
 	}
 	
 	func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-		startPlaying()
+		if let index = audioPlayers.firstIndex(of: player) {
+			audioPlayers.remove(at: index)
+		}
 	}
 }

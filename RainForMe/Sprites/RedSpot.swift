@@ -13,12 +13,11 @@ public class RedSpot : SKSpriteNode {
 		let redSpot = RedSpot(imageNamed: "redspot")
 		redSpot.zPosition = -1
 		redSpot.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 5, height: 5))
-		redSpot.physicsBody?.affectedByGravity = false
 		redSpot.physicsBody?.allowsRotation = false
 		
-		// Put Red Spot into RedSpotCategory and set its collision to RedCategory
+		// Put Red Spot into RedSpotCategory and set its collision to RainDropCategory and RedCategory
 		redSpot.physicsBody?.categoryBitMask = RedSpotCategory
-		redSpot.physicsBody?.contactTestBitMask = RedCategory
+		redSpot.physicsBody?.contactTestBitMask = RainDropCategory | RedCategory
 		return redSpot
 	}
 }
