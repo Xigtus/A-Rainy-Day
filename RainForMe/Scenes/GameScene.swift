@@ -25,7 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	private var redspot : RedSpot!
 	
 	// So that Red doesn't move too close to the edge of the screen
-	private let redMoveMargin : CGFloat = 60.0
+	private let redMoveMargin : CGFloat = 70.0
 	
 	// Call the rain
 	func spawnRaindrop() {
@@ -92,6 +92,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			return
 		}
 		
+		// Check what collides with Cloud
+		if contact.bodyA.categoryBitMask == CloudCategory || contact.bodyB.categoryBitMask == CloudCategory {
+			handleCloudCollision(contact: contact)
+			
+			return
+		}
+		
 		// Check what collides with Red
 		if contact.bodyA.categoryBitMask == RedCategory || contact.bodyB.categoryBitMask == RedCategory {
 			handleRedCollision(contact: contact)
@@ -100,7 +107,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		}
 	}
 	
-	//If Red is hit
+	// If Cloud is hit
+	func handleCloudCollision(contact: SKPhysicsContact) {
+		var otherBody : SKPhysicsBody
+		
+		if(contact.bodyA.categoryBitMask == CloudCategory) {
+			otherBody = contact.bodyB
+		} else {
+			otherBody = contact.bodyA
+		}
+		
+		switch otherBody.categoryBitMask {
+		case RainDropCategory:
+			print("Rain hit Cloud")
+		default:
+			print("Something hit Cloud")
+		}
+	}
+	
+	// If Red is hit
 	func handleRedCollision(contact: SKPhysicsContact) {
 		var otherBody : SKPhysicsBody
 		

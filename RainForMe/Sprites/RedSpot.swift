@@ -13,6 +13,7 @@ public class RedSpot : SKSpriteNode {
 		let redSpot = RedSpot(imageNamed: "redspot")
 		redSpot.zPosition = -1
 		redSpot.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 5, height: 5))
+		redSpot.physicsBody?.pinned = true
 		redSpot.physicsBody?.allowsRotation = false
 		
 		// Put Red Spot into RedSpotCategory and set its collision to RainDropCategory and RedCategory

@@ -12,7 +12,6 @@ class SoundManager : NSObject, AVAudioPlayerDelegate {
 	
 	var audioPlayers: [AVAudioPlayer] = []
 
-	@discardableResult
 	public func startPlaying(soundName: String, fileExtension: String) -> AVAudioPlayer? {
 		if let soundURL = Bundle.main.url(forResource: soundName, withExtension: fileExtension) {
 			do {

@@ -12,6 +12,7 @@ public class RedSprite : SKSpriteNode {
 	// Set Red's movement speed
 	private let movementSpeed : CGFloat = 170
 	private let runningActionKey = "action_running"
+	private let idleActionKey = "action_idle"
 	
 	private var idleTime : TimeInterval = 4
 	private let maxIdleTime : TimeInterval = 4
@@ -19,7 +20,13 @@ public class RedSprite : SKSpriteNode {
 	private let idleFrames = [
 		SKTexture(imageNamed: "red_idle0"),
 		SKTexture(imageNamed: "red_idle1"),
-		SKTexture(imageNamed: "red_idle2")
+		SKTexture(imageNamed: "red_idle2"),
+		SKTexture(imageNamed: "red_idle3"),
+		SKTexture(imageNamed: "red_idle4"),
+		SKTexture(imageNamed: "red_idle5"),
+		SKTexture(imageNamed: "red_idle6"),
+		SKTexture(imageNamed: "red_idle7"),
+		SKTexture(imageNamed: "red_idle8")
 	]
 	
 	private let runFrames = [
@@ -52,17 +59,26 @@ public class RedSprite : SKSpriteNode {
 	
 	public func redIsIdle() {
 		idleTime = TimeInterval.random(in: 1.0...4.0)
-		removeAction(forKey: runningActionKey)	}
+		removeAction(forKey: runningActionKey)
+		let idleAnimationAction = SKAction.repeatForever(
+			SKAction.animate(with: idleFrames, timePerFrame: 0.2, resize: false, restore: true))
+		run(idleAnimationAction, withKey: idleActionKey)
+	}
+	
+	public func redIsRunning() {
+		removeAction(forKey: idleActionKey)
+		if action(forKey: runningActionKey) == nil {
+			let runningAnimationAction = SKAction.repeatForever(
+				SKAction.animate(with: runFrames, timePerFrame: 0.1, resize: false, restore: true))
+			run(runningAnimationAction, withKey: runningActionKey)
+		}
+	}
 	
 	public func update(deltaTime : TimeInterval, moveLocation: CGPoint) {
 		idleTime += deltaTime
 		
 		if idleTime >= maxIdleTime {
-			if action(forKey: runningActionKey) == nil {
-				let runningAnimationAction = SKAction.repeatForever(
-					SKAction.animate(with: runFrames, timePerFrame: 0.1, resize: false, restore: true))
-				run(runningAnimationAction, withKey: runningActionKey)
-			}
+			redIsRunning()
 			
 			// Set how Red will move
 			if moveLocation.x < position.x {
