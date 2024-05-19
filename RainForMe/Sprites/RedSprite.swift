@@ -10,23 +10,24 @@ import SpriteKit
 
 public class RedSprite : SKSpriteNode {
 	// Set Red's movement speed
-	private let movementSpeed : CGFloat = 170
+	private let movementSpeed : CGFloat = 175
 	private let runningActionKey = "action_running"
 	private let idleActionKey = "action_idle"
+	private let fallingActionKey = "action_falling"
 	
 	private var idleTime : TimeInterval = 4
 	private let maxIdleTime : TimeInterval = 4
 	
 	private let idleFrames = [
 		SKTexture(imageNamed: "red_idle0"),
+		SKTexture(imageNamed: "red_idle0"),
 		SKTexture(imageNamed: "red_idle1"),
+		SKTexture(imageNamed: "red_idle1"),
+		SKTexture(imageNamed: "red_idle0"),
+		SKTexture(imageNamed: "red_idle0"),
 		SKTexture(imageNamed: "red_idle2"),
 		SKTexture(imageNamed: "red_idle3"),
-		SKTexture(imageNamed: "red_idle4"),
-		SKTexture(imageNamed: "red_idle5"),
-		SKTexture(imageNamed: "red_idle6"),
-		SKTexture(imageNamed: "red_idle7"),
-		SKTexture(imageNamed: "red_idle8")
+		SKTexture(imageNamed: "red_idle0")
 	]
 	
 	private let runFrames = [
@@ -38,6 +39,29 @@ public class RedSprite : SKSpriteNode {
 		SKTexture(imageNamed: "red_run5"),
 		SKTexture(imageNamed: "red_run6"),
 		SKTexture(imageNamed: "red_run7")
+	]
+	
+	private let fallFrames = [
+		SKTexture(imageNamed: "red_fall0"),
+		SKTexture(imageNamed: "red_fall1"),
+		SKTexture(imageNamed: "red_fall2"),
+		SKTexture(imageNamed: "red_fall3"),
+		SKTexture(imageNamed: "red_fall4"),
+		SKTexture(imageNamed: "red_fall5"),
+		SKTexture(imageNamed: "red_fall6"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7"),
+		SKTexture(imageNamed: "red_fall7")
 	]
 	
 	public static func newInstance() -> RedSprite {
@@ -57,40 +81,77 @@ public class RedSprite : SKSpriteNode {
 		return redSprite
 	}
 	
+	public func getFallFrames() -> [SKTexture] {
+			return fallFrames
+	}
+	
 	public func redIsIdle() {
 		idleTime = TimeInterval.random(in: 1.0...4.0)
 		removeAction(forKey: runningActionKey)
-		let idleAnimationAction = SKAction.repeatForever(
-			SKAction.animate(with: idleFrames, timePerFrame: 0.2, resize: false, restore: true))
-		run(idleAnimationAction, withKey: idleActionKey)
+		removeAction(forKey: fallingActionKey)
+		if action(forKey: idleActionKey) == nil {
+			let idleAnimationAction = SKAction.repeatForever(
+				SKAction.animate(with: idleFrames, timePerFrame: 0.2, resize: false, restore: true))
+			run(idleAnimationAction, withKey: idleActionKey)
+		}
+		
+		if physicsBody == nil {
+			physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width / 2, height: size.height))
+			physicsBody?.isDynamic = false
+			physicsBody?.categoryBitMask = RedCategory
+			physicsBody?.contactTestBitMask = RainDropCategory | RedSpotCategory
+		}
 	}
 	
 	public func redIsRunning() {
 		removeAction(forKey: idleActionKey)
+		removeAction(forKey: fallingActionKey)
 		if action(forKey: runningActionKey) == nil {
 			let runningAnimationAction = SKAction.repeatForever(
 				SKAction.animate(with: runFrames, timePerFrame: 0.1, resize: false, restore: true))
 			run(runningAnimationAction, withKey: runningActionKey)
 		}
+		
+		if physicsBody == nil {
+			physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width / 2, height: size.height))
+			physicsBody?.isDynamic = false
+			physicsBody?.categoryBitMask = RedCategory
+			physicsBody?.contactTestBitMask = RainDropCategory | RedSpotCategory
+		}
+	}
+	
+	public func redIsFalling() {
+		removeAction(forKey: idleActionKey)
+		removeAction(forKey: runningActionKey)
+		if action(forKey: fallingActionKey) == nil {
+			let fallingAnimationAction = SKAction.animate(with: fallFrames, timePerFrame: 0.2, resize: false, restore: true)
+			run(fallingAnimationAction, withKey: fallingActionKey)
+		}
+		
+		physicsBody = nil
 	}
 	
 	public func update(deltaTime : TimeInterval, moveLocation: CGPoint) {
 		idleTime += deltaTime
 		
-		if idleTime >= maxIdleTime {
-			redIsRunning()
-			
-			// Set how Red will move
-			if moveLocation.x < position.x {
-				// Red move left
-				position.x -= movementSpeed * CGFloat(deltaTime)
-				// Rotate Red to face left
-				xScale = -1
-			} else {
-				// Red move right
-				position.x += movementSpeed * CGFloat(deltaTime)
-				// Rotate Red to face right
-				xScale = 1
+		if action(forKey: fallingActionKey) != nil {
+			return
+		} else {
+			if idleTime >= maxIdleTime {
+				redIsRunning()
+				
+				// Set how Red will move
+				if moveLocation.x < position.x {
+					// Red move left
+					position.x -= movementSpeed * CGFloat(deltaTime)
+					// Rotate Red to face left
+					xScale = -1
+				} else {
+					// Red move right
+					position.x += movementSpeed * CGFloat(deltaTime)
+					// Rotate Red to face right
+					xScale = 1
+				}
 			}
 		}
 	}

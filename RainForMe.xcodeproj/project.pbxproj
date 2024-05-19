@@ -11,6 +11,9 @@
 		E43F4C802BF7A4C800725F22 /* rain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E43F4C7F2BF7A4C800725F22 /* rain.mp3 */; };
 		E43F4C822BF7A56400725F22 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F4C812BF7A56400725F22 /* SoundManager.swift */; };
 		E43F4C842BF7A87700725F22 /* calm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E43F4C832BF7A87700725F22 /* calm.mp3 */; };
+		E43F4C8D2BF8D13A00725F22 /* NicoClean-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E43F4C8C2BF8D13A00725F22 /* NicoClean-Regular.otf */; };
+		E43F4C912BF8F24E00725F22 /* HudNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F4C902BF8F24E00725F22 /* HudNode.swift */; };
+		E43F4C932BF9303B00725F22 /* bubble.wav in Resources */ = {isa = PBXBuildFile; fileRef = E43F4C922BF9303B00725F22 /* bubble.wav */; };
 		E457E3B12BF64E21001483A6 /* RedSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E457E3B02BF64E21001483A6 /* RedSpot.swift */; };
 		E4BE816F2BF36E2E0076146D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE816E2BF36E2E0076146D /* AppDelegate.swift */; };
 		E4BE81712BF36E2E0076146D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E4BE81702BF36E2E0076146D /* GameScene.sks */; };
@@ -30,6 +33,10 @@
 		E43F4C7F2BF7A4C800725F22 /* rain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rain.mp3; sourceTree = "<group>"; };
 		E43F4C812BF7A56400725F22 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		E43F4C832BF7A87700725F22 /* calm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = calm.mp3; sourceTree = "<group>"; };
+		E43F4C8C2BF8D13A00725F22 /* NicoClean-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NicoClean-Regular.otf"; sourceTree = "<group>"; };
+		E43F4C8E2BF8D28C00725F22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E43F4C902BF8F24E00725F22 /* HudNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudNode.swift; sourceTree = "<group>"; };
+		E43F4C922BF9303B00725F22 /* bubble.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bubble.wav; sourceTree = "<group>"; };
 		E457E3B02BF64E21001483A6 /* RedSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSpot.swift; sourceTree = "<group>"; };
 		E4BE816B2BF36E2E0076146D /* RainForMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainForMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4BE816E2BF36E2E0076146D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +66,7 @@
 		E43F4C7C2BF7A29F00725F22 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				E43F4C922BF9303B00725F22 /* bubble.wav */,
 				E43F4C832BF7A87700725F22 /* calm.mp3 */,
 				E43F4C7F2BF7A4C800725F22 /* rain.mp3 */,
 			);
@@ -68,6 +76,7 @@
 		E43F4C8A2BF8B59F00725F22 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				E43F4C8C2BF8D13A00725F22 /* NicoClean-Regular.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -78,6 +87,14 @@
 				E4BE81742BF36E2E0076146D /* GameScene.swift */,
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		E43F4C8F2BF8D3E800725F22 /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				E43F4C902BF8F24E00725F22 /* HudNode.swift */,
+			);
+			path = Nodes;
 			sourceTree = "<group>";
 		};
 		E4BE81622BF36E2E0076146D = {
@@ -99,10 +116,12 @@
 		E4BE816D2BF36E2E0076146D /* RainForMe */ = {
 			isa = PBXGroup;
 			children = (
+				E43F4C8E2BF8D28C00725F22 /* Info.plist */,
 				E4BE816E2BF36E2E0076146D /* AppDelegate.swift */,
 				E4BE81762BF36E2E0076146D /* GameViewController.swift */,
 				E4BE81882BF3BA1A0076146D /* Supports */,
 				E4BE81852BF380310076146D /* Sprites */,
+				E43F4C8F2BF8D3E800725F22 /* Nodes */,
 				E43F4C8B2BF8C9BF00725F22 /* Scenes */,
 				E43F4C7C2BF7A29F00725F22 /* Sounds */,
 				E43F4C8A2BF8B59F00725F22 /* Fonts */,
@@ -193,6 +212,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E43F4C932BF9303B00725F22 /* bubble.wav in Resources */,
 				E4BE81712BF36E2E0076146D /* GameScene.sks in Resources */,
 				E43F4C842BF7A87700725F22 /* calm.mp3 in Resources */,
 				E4BE817A2BF36E2E0076146D /* Base in Resources */,
@@ -200,6 +220,7 @@
 				E4BE817C2BF36E2F0076146D /* Assets.xcassets in Resources */,
 				E4BE81732BF36E2E0076146D /* Actions.sks in Resources */,
 				E4BE817F2BF36E2F0076146D /* Base in Resources */,
+				E43F4C8D2BF8D13A00725F22 /* NicoClean-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +234,7 @@
 				E43F4C7E2BF7A37500725F22 /* BackgroundSprite.swift in Sources */,
 				E4BE818A2BF3BA2C0076146D /* Constants.swift in Sources */,
 				E4BE81752BF36E2E0076146D /* GameScene.swift in Sources */,
+				E43F4C912BF8F24E00725F22 /* HudNode.swift in Sources */,
 				E4BE81772BF36E2E0076146D /* GameViewController.swift in Sources */,
 				E457E3B12BF64E21001483A6 /* RedSpot.swift in Sources */,
 				E4BE816F2BF36E2E0076146D /* AppDelegate.swift in Sources */,
@@ -372,6 +394,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 749DSANFYP;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RainForMe/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "A Rainy Day";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -407,6 +430,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 749DSANFYP;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RainForMe/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "A Rainy Day";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
