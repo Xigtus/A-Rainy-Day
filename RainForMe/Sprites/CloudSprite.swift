@@ -5,7 +5,6 @@
 //  Created by Gusti Rizky Fajar on 14/05/24.
 //
 
-import Foundation
 import SpriteKit
 
 public class CloudSprite : SKSpriteNode {

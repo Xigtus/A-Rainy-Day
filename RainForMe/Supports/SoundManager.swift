@@ -21,13 +21,16 @@ class SoundManager : NSObject, AVAudioPlayerDelegate {
 				audioPlayers.append(audioPlayer)
 				audioPlayer.prepareToPlay()
 				audioPlayer.play()
+				
 				return audioPlayer
 			} catch {
 				print("Audio player failed to load")
+				
 				return nil
 			}
 		} else {
 			print("Sound file not found")
+			
 			return nil
 		}
 	}

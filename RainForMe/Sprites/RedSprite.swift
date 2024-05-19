@@ -5,18 +5,21 @@
 //  Created by Gusti Rizky Fajar on 16/05/24.
 //
 
-import Foundation
 import SpriteKit
 
 public class RedSprite : SKSpriteNode {
 	// Set Red's movement speed
-	private let movementSpeed : CGFloat = 175
+	private let movementSpeed : CGFloat = 180
 	private let runningActionKey = "action_running"
 	private let idleActionKey = "action_idle"
 	private let fallingActionKey = "action_falling"
 	
 	private var idleTime : TimeInterval = 4
 	private let maxIdleTime : TimeInterval = 4
+	
+	// Add properties to track movement
+	public var hasMoved: Bool = false
+	private var previousPosition: CGPoint = .zero
 	
 	private let idleFrames = [
 		SKTexture(imageNamed: "red_idle0"),
@@ -82,11 +85,11 @@ public class RedSprite : SKSpriteNode {
 	}
 	
 	public func getFallFrames() -> [SKTexture] {
-			return fallFrames
+		return fallFrames
 	}
 	
 	public func redIsIdle() {
-		idleTime = TimeInterval.random(in: 1.0...4.0)
+		idleTime = TimeInterval.random(in: 2.0...4.0)
 		removeAction(forKey: runningActionKey)
 		removeAction(forKey: fallingActionKey)
 		if action(forKey: idleActionKey) == nil {
@@ -154,5 +157,9 @@ public class RedSprite : SKSpriteNode {
 				}
 			}
 		}
+		
+		// Check if Red has moved
+		hasMoved = position != previousPosition
+		previousPosition = position
 	}
 }

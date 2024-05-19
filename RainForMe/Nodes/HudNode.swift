@@ -5,14 +5,14 @@
 //  Created by Gusti Rizky Fajar on 18/05/24.
 //
 
-import Foundation
 import SpriteKit
 
 class HudNode : SKNode {
 	private let scoreNode = SKLabelNode(fontNamed: "NicoClean-Regular")
 	private let highScoreNode = SKLabelNode(fontNamed: "NicoClean-Regular")
+	
 	private(set) var score : Int = 0
-	private(set) var highScore : Int = 50
+	private(set) var highScore : Int = 80
 	
 	public func setup(size: CGSize) {
 		scoreNode.text = "\(score)"

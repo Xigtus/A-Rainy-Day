@@ -19,7 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	
 	// Randomize rain drops and set interval
 	private var currentRainDropSpawnTime : TimeInterval = 0
-	private var rainDropSpawnRate : TimeInterval = 0.3
+	private var rainDropSpawnRate : TimeInterval = 0.2
 	private let random = GKARC4RandomSource()
 	
 	private let background = BackgroundSprite.newInstance()
@@ -37,7 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	private let redMoveMargin : CGFloat = 70.0
 	
 	// Set Red's Hit Points
-	func ShowHitPoints() {
+	func showHitPoints() {
 		redHitPoints = 10
 		
 		redHitPointsNode = SKLabelNode(fontNamed: "NicoClean-Regular")
@@ -49,20 +49,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 	
 	// Call the rain
-	func spawnRaindrop() {
+	func spawnRainDrop() {
 		// Declare the rain
 		let rainDrop = SKSpriteNode(imageNamed: "raindrop")
-		rainDrop.position = CGPoint(x: size.width / 2, y:  size.height / 2)
 		rainDrop.physicsBody = SKPhysicsBody(rectangleOf: rainDrop.size)
+		rainDrop.physicsBody?.categoryBitMask = RainDropCategory
+		rainDrop.physicsBody?.contactTestBitMask = FloorCategory | RedSpotCategory
+		rainDrop.zPosition = 2
 		
 		// Set raindrops to spawn from random position
 		let randomPosition = abs(CGFloat(random.nextInt()).truncatingRemainder(dividingBy: size.width))
 		rainDrop.position = CGPoint(x: randomPosition, y: size.height)
 		rainDrop.zPosition = 2
-		
-		// Put raindrop into RainDropCategory and set its collision to FloorCategory and RedSpotCategory
-		rainDrop.physicsBody?.categoryBitMask = RainDropCategory
-		rainDrop.physicsBody?.contactTestBitMask = FloorCategory | RedSpotCategory
 		
 		addChild(rainDrop)
 	}
@@ -77,10 +75,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		}
 		
 		red = RedSprite.newInstance()
-		red.position = CGPoint(x: cloud.position.x, y: cloud.position.y / 3)
+		red.position = CGPoint(x: frame.midX, y: frame.midY / 3)
 		
 		addChild(red)
-		ShowHitPoints()
+		showHitPoints()
 		
 		hud.resetPoints()
 	}
@@ -173,7 +171,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			redSpotBody.node?.physicsBody = nil
 			whereToMove()
 		case RainDropCategory:
-			print("Rain hit Red Spot")
+//			print("Rain hit Red Spot")
+			break
 		default:
 			print("Red hasn't arrived")
 		}
@@ -184,15 +183,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		self.physicsWorld.contactDelegate = self
 		
+		// Add rain SFX
+		let ambienceTrack = SoundManager.sharedInstance.startPlaying(soundName: "rain", fileExtension: "mp3")
+		ambienceTrack?.volume = 0.3
+		
 		// Add HUD
 		hud.setup(size: size)
 		addChild(hud)
-		
-		// Add music
-		let backgroundTrack = SoundManager.sharedInstance.startPlaying(soundName: "calm", fileExtension: "mp3")
-		backgroundTrack?.volume = 1.0
-		let ambienceTrack = SoundManager.sharedInstance.startPlaying(soundName: "rain", fileExtension: "mp3")
-		ambienceTrack?.volume = 0.3
 		
 		// Declare the floor
 		let floorNode = SKShapeNode(rectOf: CGSize(width: size.width, height: 5))
@@ -217,7 +214,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 	
 	func didBegin(_ contact: SKPhysicsContact) {
-		// Check what collides with Rain Drop
+		// Set Rain Drop collision
 		if (contact.bodyA.categoryBitMask == RainDropCategory) {
 			contact.bodyA.node?.removeFromParent()
 			contact.bodyA.node?.physicsBody = nil
@@ -281,7 +278,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 		if currentRainDropSpawnTime > rainDropSpawnRate {
 		  currentRainDropSpawnTime = 0
-		  spawnRaindrop()
+		  spawnRainDrop()
 		}
 		
 		if let accelerometerData = motionManager.accelerometerData {
@@ -309,7 +306,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		// Make Red move to Red Spot position
 		red.update(deltaTime: dt, moveLocation: redspot.position)
 		
-		// Update redHitPointsNode position to follow Red
-		redHitPointsNode.position = CGPoint(x: red.position.x, y: red.position.y + 80)
+		// Update redHitPointsNode position to follow Red only if Red has moved
+		if red.hasMoved {
+			redHitPointsNode.position = CGPoint(x: red.position.x, y: red.position.y + 80)
+		}
 	}
 }

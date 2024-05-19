@@ -24,6 +24,10 @@ class GameViewController: UIViewController {
 			view.showsFPS = false
 			view.showsNodeCount = false
 		}
+		
+		// Add BGM
+		let backgroundTrack = SoundManager.sharedInstance.startPlaying(soundName: "calm", fileExtension: "mp3")
+		backgroundTrack?.volume = 1.0
 	}
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

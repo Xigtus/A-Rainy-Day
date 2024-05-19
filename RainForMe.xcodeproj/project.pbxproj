@@ -15,6 +15,7 @@
 		E43F4C912BF8F24E00725F22 /* HudNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F4C902BF8F24E00725F22 /* HudNode.swift */; };
 		E43F4C932BF9303B00725F22 /* bubble.wav in Resources */ = {isa = PBXBuildFile; fileRef = E43F4C922BF9303B00725F22 /* bubble.wav */; };
 		E457E3B12BF64E21001483A6 /* RedSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E457E3B02BF64E21001483A6 /* RedSpot.swift */; };
+		E4BBFF9C2BF9F7A600B2FBD6 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BBFF9B2BF9F7A600B2FBD6 /* StartScene.swift */; };
 		E4BE816F2BF36E2E0076146D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE816E2BF36E2E0076146D /* AppDelegate.swift */; };
 		E4BE81712BF36E2E0076146D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E4BE81702BF36E2E0076146D /* GameScene.sks */; };
 		E4BE81732BF36E2E0076146D /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E4BE81722BF36E2E0076146D /* Actions.sks */; };
@@ -38,6 +39,7 @@
 		E43F4C902BF8F24E00725F22 /* HudNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudNode.swift; sourceTree = "<group>"; };
 		E43F4C922BF9303B00725F22 /* bubble.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bubble.wav; sourceTree = "<group>"; };
 		E457E3B02BF64E21001483A6 /* RedSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSpot.swift; sourceTree = "<group>"; };
+		E4BBFF9B2BF9F7A600B2FBD6 /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		E4BE816B2BF36E2E0076146D /* RainForMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainForMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4BE816E2BF36E2E0076146D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4BE81702BF36E2E0076146D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 		E43F4C8B2BF8C9BF00725F22 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				E4BBFF9B2BF9F7A600B2FBD6 /* StartScene.swift */,
 				E4BE81742BF36E2E0076146D /* GameScene.swift */,
 			);
 			path = Scenes;
@@ -241,6 +244,7 @@
 				E4BE81872BF380510076146D /* CloudSprite.swift in Sources */,
 				E4BE818E2BF5E0640076146D /* RedSprite.swift in Sources */,
 				E43F4C822BF7A56400725F22 /* SoundManager.swift in Sources */,
+				E4BBFF9C2BF9F7A600B2FBD6 /* StartScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

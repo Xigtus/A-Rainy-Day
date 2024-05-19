@@ -5,7 +5,6 @@
 //  Created by Gusti Rizky Fajar on 16/05/24.
 //
 
-import Foundation
 import SpriteKit
 
 public class RedSpot : SKSpriteNode {

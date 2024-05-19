@@ -5,7 +5,6 @@
 //  Created by Gusti Rizky Fajar on 17/05/24.
 //
 
-import Foundation
 import SpriteKit
 
 public class BackgroundSprite : SKSpriteNode {
