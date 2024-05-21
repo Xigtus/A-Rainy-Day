@@ -15,6 +15,8 @@
 		E43F4C912BF8F24E00725F22 /* HudNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F4C902BF8F24E00725F22 /* HudNode.swift */; };
 		E43F4C932BF9303B00725F22 /* bubble.wav in Resources */ = {isa = PBXBuildFile; fileRef = E43F4C922BF9303B00725F22 /* bubble.wav */; };
 		E457E3B12BF64E21001483A6 /* RedSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E457E3B02BF64E21001483A6 /* RedSpot.swift */; };
+		E4771C4B2BFC8697000A1D13 /* LeafParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = E4771C492BFC8697000A1D13 /* LeafParticles.sks */; };
+		E4771C4C2BFC8697000A1D13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4771C4A2BFC8697000A1D13 /* Assets.xcassets */; };
 		E4BBFF9C2BF9F7A600B2FBD6 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BBFF9B2BF9F7A600B2FBD6 /* StartScene.swift */; };
 		E4BE816F2BF36E2E0076146D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE816E2BF36E2E0076146D /* AppDelegate.swift */; };
 		E4BE81712BF36E2E0076146D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E4BE81702BF36E2E0076146D /* GameScene.sks */; };
@@ -39,6 +41,8 @@
 		E43F4C902BF8F24E00725F22 /* HudNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudNode.swift; sourceTree = "<group>"; };
 		E43F4C922BF9303B00725F22 /* bubble.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bubble.wav; sourceTree = "<group>"; };
 		E457E3B02BF64E21001483A6 /* RedSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSpot.swift; sourceTree = "<group>"; };
+		E4771C492BFC8697000A1D13 /* LeafParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LeafParticles.sks; sourceTree = "<group>"; };
+		E4771C4A2BFC8697000A1D13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4BBFF9B2BF9F7A600B2FBD6 /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		E4BE816B2BF36E2E0076146D /* RainForMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainForMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4BE816E2BF36E2E0076146D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +104,15 @@
 			path = Nodes;
 			sourceTree = "<group>";
 		};
+		E4771C482BFC8671000A1D13 /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				E4771C492BFC8697000A1D13 /* LeafParticles.sks */,
+				E4771C4A2BFC8697000A1D13 /* Assets.xcassets */,
+			);
+			path = Particles;
+			sourceTree = "<group>";
+		};
 		E4BE81622BF36E2E0076146D = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +140,7 @@
 				E43F4C8F2BF8D3E800725F22 /* Nodes */,
 				E43F4C8B2BF8C9BF00725F22 /* Scenes */,
 				E43F4C7C2BF7A29F00725F22 /* Sounds */,
+				E4771C482BFC8671000A1D13 /* Particles */,
 				E43F4C8A2BF8B59F00725F22 /* Fonts */,
 				E4BE81702BF36E2E0076146D /* GameScene.sks */,
 				E4BE81722BF36E2E0076146D /* Actions.sks */,
@@ -216,6 +230,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E43F4C932BF9303B00725F22 /* bubble.wav in Resources */,
+				E4771C4B2BFC8697000A1D13 /* LeafParticles.sks in Resources */,
+				E4771C4C2BFC8697000A1D13 /* Assets.xcassets in Resources */,
 				E4BE81712BF36E2E0076146D /* GameScene.sks in Resources */,
 				E43F4C842BF7A87700725F22 /* calm.mp3 in Resources */,
 				E4BE817A2BF36E2E0076146D /* Base in Resources */,

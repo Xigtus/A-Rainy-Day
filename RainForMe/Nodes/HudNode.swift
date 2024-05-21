@@ -15,13 +15,15 @@ class HudNode : SKNode {
 	private(set) var highScore : Int = 80
 	
 	public func setup(size: CGSize) {
+		// Declare HUD for score
 		scoreNode.text = "\(score)"
 		scoreNode.fontSize = 60
 		scoreNode.position = CGPoint(x: size.width / 2, y: size.height / 1.6)
 		scoreNode.zPosition = 5
 		
+		// Declare HUD for high score
 		highScoreNode.text = "\(highScore)"
-		highScoreNode.fontSize = 60
+		highScoreNode.fontSize = 70
 		highScoreNode.position = CGPoint(x: size.width - 100, y: size.height - 100)
 		highScoreNode.zPosition = 5
 

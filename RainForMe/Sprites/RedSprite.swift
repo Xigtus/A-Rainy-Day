@@ -10,6 +10,7 @@ import SpriteKit
 public class RedSprite : SKSpriteNode {
 	// Set Red's movement speed
 	private let movementSpeed : CGFloat = 180
+	
 	private let runningActionKey = "action_running"
 	private let idleActionKey = "action_idle"
 	private let fallingActionKey = "action_falling"
@@ -21,51 +22,22 @@ public class RedSprite : SKSpriteNode {
 	public var hasMoved: Bool = false
 	private var previousPosition: CGPoint = .zero
 	
-	private let idleFrames = [
-		SKTexture(imageNamed: "red_idle0"),
-		SKTexture(imageNamed: "red_idle0"),
-		SKTexture(imageNamed: "red_idle1"),
-		SKTexture(imageNamed: "red_idle1"),
-		SKTexture(imageNamed: "red_idle0"),
-		SKTexture(imageNamed: "red_idle0"),
-		SKTexture(imageNamed: "red_idle2"),
-		SKTexture(imageNamed: "red_idle3"),
-		SKTexture(imageNamed: "red_idle0")
-	]
+	// Frames for idle action
+	private let idleFrames: [SKTexture] = (0...2).flatMap { i in
+		// Create two identical textures for each red_idle
+		[SKTexture(imageNamed: "red_idle\(i)"), SKTexture(imageNamed: "red_idle\(i)")]
+	}
 	
-	private let runFrames = [
-		SKTexture(imageNamed: "red_run0"),
-		SKTexture(imageNamed: "red_run1"),
-		SKTexture(imageNamed: "red_run2"),
-		SKTexture(imageNamed: "red_run3"),
-		SKTexture(imageNamed: "red_run4"),
-		SKTexture(imageNamed: "red_run5"),
-		SKTexture(imageNamed: "red_run6"),
-		SKTexture(imageNamed: "red_run7")
-	]
+	// Frames for run action
+	private let runFrames: [SKTexture] = (0...7).map {
+		SKTexture(imageNamed: "red_run\($0)")
+	}
 	
-	private let fallFrames = [
-		SKTexture(imageNamed: "red_fall0"),
-		SKTexture(imageNamed: "red_fall1"),
-		SKTexture(imageNamed: "red_fall2"),
-		SKTexture(imageNamed: "red_fall3"),
-		SKTexture(imageNamed: "red_fall4"),
-		SKTexture(imageNamed: "red_fall5"),
-		SKTexture(imageNamed: "red_fall6"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7"),
-		SKTexture(imageNamed: "red_fall7")
-	]
+	// Frames for fall action
+	private let fallFrames: [SKTexture] = (0...7).flatMap { i in
+		// When texture is red_fall7, repeat the texture 12 times. Otherwise repeat 1 time
+		Array(repeating: SKTexture(imageNamed: "red_fall\(i)"), count: i == 7 ? 12 : 1)
+	}
 	
 	public static func newInstance() -> RedSprite {
 		let redSprite = RedSprite(imageNamed: "red_normal")
@@ -84,10 +56,24 @@ public class RedSprite : SKSpriteNode {
 		return redSprite
 	}
 	
+	// Function to get FallFrames on GameScene class
 	public func getFallFrames() -> [SKTexture] {
 		return fallFrames
 	}
 	
+	// Check if physicsbody for Red is nil. Otherwise, give physicsbody for Red
+	private func setupPhysicsBody() {
+		if physicsBody == nil {
+			physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width / 2, height: size.height))
+			physicsBody?.isDynamic = false
+			
+			// Put Red into RedCategory and set it's collision to RainDropCategory and RedSpotCategory
+			physicsBody?.categoryBitMask = RedCategory
+			physicsBody?.contactTestBitMask = RainDropCategory | RedSpotCategory
+		}
+	}
+	
+	// Idle action for Red
 	public func redIsIdle() {
 		idleTime = TimeInterval.random(in: 2.0...4.0)
 		removeAction(forKey: runningActionKey)
@@ -98,14 +84,10 @@ public class RedSprite : SKSpriteNode {
 			run(idleAnimationAction, withKey: idleActionKey)
 		}
 		
-		if physicsBody == nil {
-			physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width / 2, height: size.height))
-			physicsBody?.isDynamic = false
-			physicsBody?.categoryBitMask = RedCategory
-			physicsBody?.contactTestBitMask = RainDropCategory | RedSpotCategory
-		}
+		setupPhysicsBody()
 	}
 	
+	// Running action for Red
 	public func redIsRunning() {
 		removeAction(forKey: idleActionKey)
 		removeAction(forKey: fallingActionKey)
@@ -115,14 +97,10 @@ public class RedSprite : SKSpriteNode {
 			run(runningAnimationAction, withKey: runningActionKey)
 		}
 		
-		if physicsBody == nil {
-			physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width / 2, height: size.height))
-			physicsBody?.isDynamic = false
-			physicsBody?.categoryBitMask = RedCategory
-			physicsBody?.contactTestBitMask = RainDropCategory | RedSpotCategory
-		}
+		setupPhysicsBody()
 	}
 	
+	// Falling action for Red
 	public func redIsFalling() {
 		removeAction(forKey: idleActionKey)
 		removeAction(forKey: runningActionKey)
@@ -137,6 +115,7 @@ public class RedSprite : SKSpriteNode {
 	public func update(deltaTime : TimeInterval, moveLocation: CGPoint) {
 		idleTime += deltaTime
 		
+		// Check if Red is falling. Otherwise if Red has been idle, tell Red to run
 		if action(forKey: fallingActionKey) != nil {
 			return
 		} else {
@@ -144,17 +123,10 @@ public class RedSprite : SKSpriteNode {
 				redIsRunning()
 				
 				// Set how Red will move
-				if moveLocation.x < position.x {
-					// Red move left
-					position.x -= movementSpeed * CGFloat(deltaTime)
-					// Rotate Red to face left
-					xScale = -1
-				} else {
-					// Red move right
-					position.x += movementSpeed * CGFloat(deltaTime)
-					// Rotate Red to face right
-					xScale = 1
-				}
+				// If moveLocation is less than Red's x position, Red face left and move left. Otherwise, Red face right and move right
+				let moveDirection: CGFloat = moveLocation.x < position.x ? -1 : 1
+				position.x += moveDirection * movementSpeed * CGFloat(deltaTime)
+				xScale = moveDirection
 			}
 		}
 		

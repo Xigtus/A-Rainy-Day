@@ -12,7 +12,7 @@ public class CloudSprite : SKSpriteNode {
 		let cloud = CloudSprite(imageNamed: "cloud")
 		let cloudSize = CGSize(width: cloud.size.width / 2, height: cloud.size.height / 2)
 		cloud.size = cloudSize
-		cloud.zPosition = 1
+		cloud.zPosition = 5
 		
 		cloud.physicsBody = SKPhysicsBody(rectangleOf: cloudSize)
 		cloud.physicsBody?.isDynamic = false
