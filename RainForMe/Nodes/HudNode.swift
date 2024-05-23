@@ -20,6 +20,8 @@ class HudNode : SKNode {
 	private var backButton : SKSpriteNode!
 	private(set) var pressedBackButton = false
 	
+	var backButtonAction : (() -> ())?
+	
 	public func setup(size: CGSize) {
 		// Set HUD for score
 		scoreNode.text = "\(score)"
@@ -67,5 +69,37 @@ class HudNode : SKNode {
 	private func updateScoreboard() {
 		scoreNode.text = "\(score)"
 		highScoreNode.text = "\(highScore)"
+	}
+	
+	func backButtonIsTapped(point : CGPoint) {
+		let containsPoint = backButton.contains(point)
+		
+		if pressedBackButton && !containsPoint {
+			pressedBackButton = false
+			backButton.texture = backButtonNormal
+		} else if containsPoint {
+			backButton.texture = backButtonPressed
+			pressedBackButton = true
+		}
+	}
+	
+	func backButtonIsPressed(point : CGPoint) {
+		if pressedBackButton {
+			if backButton.contains(point) {
+				backButton.texture = backButtonPressed
+			} else {
+				backButton.texture = backButtonNormal
+			}
+		}
+	}
+	
+	func backButtonIsReleased(point : CGPoint) {
+		if backButton.contains(point) {
+			if backButton.contains(point) && backButtonAction != nil {
+			  backButtonAction!()
+			}
+		}
+		
+		backButton.texture = backButtonNormal
 	}
 }

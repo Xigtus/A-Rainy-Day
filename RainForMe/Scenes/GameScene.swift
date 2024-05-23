@@ -8,6 +8,7 @@
 import SpriteKit
 import CoreMotion
 import GameplayKit
+import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 	private var lastUpdateTime : TimeInterval = 0
@@ -31,6 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	private var redspot : RedSpotSprite!
 	private var raindrop : RainDropSprite!
 	private var redheart : HeartSprite!
+	
+	private var ambienceTrack : AVAudioPlayer?
 	
 	// Set HUD for displaying score and high score
 	private let hud = HudNode()
@@ -192,6 +195,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		// Add HUD
 		hud.setup(size: size)
+		hud.backButtonAction = {
+			let transition = SKTransition.push(with: .right, duration: 0.5)
+			let startScene = StartScene(size: self.size)
+			startScene.scaleMode = self.scaleMode
+			
+			self.view?.presentScene(startScene, transition: transition)
+			self.hud.backButtonAction = nil
+		}
 		addChild(hud)
 		
 		// Declare leaf particles
@@ -262,7 +273,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		}
 		
 		// Add rain sound
-		let ambienceTrack = SoundManager.sharedInstance.startPlaying(soundName: "rain", fileExtension: "mp3")
+		ambienceTrack = SoundManager.sharedInstance.startPlaying(soundName: "rain", fileExtension: "mp3")
 		ambienceTrack?.volume = 0.3
 		
 		// Tell Red where to move
@@ -272,12 +283,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	override func willMove(from view: SKView) {
 		// Stop accelerometer updates
 		motionManager.stopAccelerometerUpdates()
-	}
-
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-	}
-
-	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+		
+		// Stop the rain sound
+		ambienceTrack?.stop()
 	}
 
 	override func update(_ currentTime: TimeInterval) {
@@ -341,4 +349,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 	
 	
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		let touchPoint = touches.first?.location(in: self)
+
+		if let point = touchPoint {
+			hud.backButtonIsTapped(point: point)
+		}
+	}
+
+	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+		let touchPoint = touches.first?.location(in: self)
+		
+		if let point = touchPoint {
+			hud.backButtonIsPressed(point: point)
+			
+		}
+	}
+
+	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+		let touchPoint = touches.first?.location(in: self)
+		
+		if let point = touchPoint {
+			  hud.backButtonIsReleased(point: point)
+		}
+	}
 }

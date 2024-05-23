@@ -8,13 +8,12 @@
 import SpriteKit
 
 class StartScene : SKScene {
-	let playButtonNormal = SKTexture(imageNamed: "play_button_normal")
-	let playButtonPressed = SKTexture(imageNamed: "play_button_pressed")
+	private let playButtonNormal = SKTexture(imageNamed: "play_button_normal")
+	private let playButtonPressed = SKTexture(imageNamed: "play_button_pressed")
+	private var playButton : SKSpriteNode! = nil
+	private var pressedPlayButton : SKSpriteNode?
 	
-	let title = SKLabelNode(fontNamed: "NicoClean-Regular")
-	
-	var playButton : SKSpriteNode! = nil
-	var pressedPlayButton : SKSpriteNode?
+	private let title = SKLabelNode(fontNamed: "NicoClean-Regular")
 	
 	private let background = BackgroundSprite.newInstance()
 	private var red : RedSprite!

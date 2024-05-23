@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-public class TutorialScene : SKScene {
+class TutorialScene : SKScene {
 	private let background = BackgroundSprite.newInstance()
 	
 	private let howToPlay = SKLabelNode(fontNamed: "NicoClean-Regular")
@@ -91,7 +91,7 @@ public class TutorialScene : SKScene {
 		view?.presentScene(gameScene, transition: transition)
 	}
 	
-	public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if let touch = touches.first {
 			if (background.contains(touch.location(in: self))) {
 				backgroundTapped()
