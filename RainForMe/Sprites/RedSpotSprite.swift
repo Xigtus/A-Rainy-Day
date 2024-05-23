@@ -7,9 +7,9 @@
 
 import SpriteKit
 
-public class RedSpot : SKSpriteNode {
-	public static func newInstance() -> RedSpot {
-		let redSpot = RedSpot(imageNamed: "redspot")
+public class RedSpotSprite : SKSpriteNode {
+	public static func newInstance() -> RedSpotSprite {
+		let redSpot = RedSpotSprite(imageNamed: "redspot")
 		redSpot.zPosition = -1
 		redSpot.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 5, height: 5))
 		redSpot.physicsBody?.pinned = true

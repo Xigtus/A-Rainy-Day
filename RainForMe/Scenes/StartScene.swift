@@ -14,7 +14,7 @@ class StartScene : SKScene {
 	let title = SKLabelNode(fontNamed: "NicoClean-Regular")
 	
 	var playButton : SKSpriteNode! = nil
-	var pressedButton : SKSpriteNode?
+	var pressedPlayButton : SKSpriteNode?
 	
 	private let background = BackgroundSprite.newInstance()
 	private var red : RedSprite!
@@ -32,26 +32,29 @@ class StartScene : SKScene {
 		addChild(title)
 		
 		playButton = SKSpriteNode(texture: playButtonNormal)
-		playButton.size =  CGSize(width: playButton.size.width * 1.2, height: playButton.size.height * 1.2)
-		playButton.position = CGPoint(x: size.width / 2, y: size.height / 2 - 20)
+		playButton.size =  CGSize(width: playButton.size.width / 1.5, height: playButton.size.height / 1.5)
+		playButton.position = CGPoint(x: title.position.x, y: title.position.y - title.frame.height / 2 - playButton.frame.height / 2 - 30)
 		playButton.zPosition = 2
 		addChild(playButton)
 		
 		red = RedSprite.newInstance()
 		red.position = CGPoint(x: frame.midX, y: frame.midY / 3)
 		red.zPosition = 3
-		red.redIsIdle()
 		addChild(red)
+	}
+	
+	override func didMove(to view: SKView) {
+		red.redIsIdle()
 	}
 	
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if let touch = touches.first {
-			if pressedButton != nil {
+			if pressedPlayButton != nil {
 				playButtonPressed(isPressed: false)
 			}
 			
 			if playButton.contains(touch.location(in: self)) {
-				pressedButton = playButton
+				pressedPlayButton = playButton
 				playButtonPressed(isPressed: true)
 			}
 		}
@@ -59,7 +62,7 @@ class StartScene : SKScene {
 	
 	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if let touch = touches.first {
-			if pressedButton == playButton {
+			if pressedPlayButton == playButton {
 				playButtonPressed(isPressed: playButton.contains(touch.location(in: self)))
 			}
 		}
@@ -67,7 +70,7 @@ class StartScene : SKScene {
 	
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if let touch = touches.first {
-			if pressedButton == playButton {
+			if pressedPlayButton == playButton {
 				playButtonPressed(isPressed: false)
 				
 				if(playButton.contains(touch.location(in: self))) {
@@ -76,7 +79,7 @@ class StartScene : SKScene {
 			}
 		}
 		
-		pressedButton = nil
+		pressedPlayButton = nil
 	}
 	
 	func playButtonPressed(isPressed : Bool) {
@@ -88,10 +91,10 @@ class StartScene : SKScene {
 	}
 	
 	func playButtonTapped() {
-		let transition = SKTransition.crossFade(withDuration: 0.7)
-		let gameScene = GameScene(size: size)
-		gameScene.scaleMode = scaleMode
+		let transition = SKTransition.push(with: .left, duration: 0.5)
+		let tutorialScene = TutorialScene(size: size)
+		tutorialScene.scaleMode = scaleMode
 		
-		view?.presentScene(gameScene, transition: transition)
+		view?.presentScene(tutorialScene, transition: transition)
 	}
 }

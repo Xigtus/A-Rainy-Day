@@ -23,9 +23,9 @@ public class RedSprite : SKSpriteNode {
 	private var previousPosition: CGPoint = .zero
 	
 	// Frames for idle action
-	private let idleFrames: [SKTexture] = (0...2).flatMap { i in
-		// Create two identical textures for each red_idle
-		[SKTexture(imageNamed: "red_idle\(i)"), SKTexture(imageNamed: "red_idle\(i)")]
+	private let idleFrames: [SKTexture] = (0...1).flatMap { i in
+		// When sprite is red_idle0, display the sprite 4 times. Otherwise display twice
+		Array(repeating: SKTexture(imageNamed: "red_idle\(i)"), count: i == 0 ? 4 : 2)
 	}
 	
 	// Frames for run action
@@ -35,7 +35,7 @@ public class RedSprite : SKSpriteNode {
 	
 	// Frames for fall action
 	private let fallFrames: [SKTexture] = (0...7).flatMap { i in
-		// When texture is red_fall7, repeat the texture 12 times. Otherwise repeat 1 time
+		// When sprite is red_fall7, display the sprite 12 times. Otherwise display once
 		Array(repeating: SKTexture(imageNamed: "red_fall\(i)"), count: i == 7 ? 12 : 1)
 	}
 	
@@ -61,7 +61,7 @@ public class RedSprite : SKSpriteNode {
 		return fallFrames
 	}
 	
-	// Check if physicsbody for Red is nil. Otherwise, give physicsbody for Red
+	// Check if physicsbody for Red is nil. Otherwise, give physicsbody to Red
 	private func setupPhysicsBody() {
 		if physicsBody == nil {
 			physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width / 2, height: size.height))

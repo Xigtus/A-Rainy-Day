@@ -19,14 +19,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	
 	// Randomize rain drops and set interval
 	private var currentRainDropSpawnTime : TimeInterval = 0
-	private var rainDropSpawnRate : TimeInterval = 1.0
-	var spawnRateReductionTimer: TimeInterval = 0
+	private var rainDropSpawnRate : TimeInterval = 1.5
+	private var spawnRateAdditionTimer: TimeInterval = 0
+	
 	private let random = GKARC4RandomSource()
 	
 	private let background = BackgroundSprite.newInstance()
 	private let cloud = CloudSprite.newInstance()
+	
 	private var red : RedSprite!
-	private var redspot : RedSpot!
+	private var redspot : RedSpotSprite!
+	private var raindrop : RainDropSprite!
+	private var redheart : HeartSprite!
 	
 	// Set HUD for displaying score and high score
 	private let hud = HudNode()
@@ -46,27 +50,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		redHitPointsNode.text = "\(redHitPoints)"
 		redHitPointsNode.fontSize = 40
 		redHitPointsNode.zPosition = 5
-		
 		addChild(redHitPointsNode)
+		
+		redheart = HeartSprite.newInstance()
+		addChild(redheart)
 	}
 	
 	// Call the rain
 	func spawnRainDrop() {
 		// Declare the rain
-		let rainDrop = SKSpriteNode(imageNamed: "raindrop")
-		rainDrop.physicsBody = SKPhysicsBody(rectangleOf: rainDrop.size)
-		rainDrop.zPosition = 2
+		raindrop = RainDropSprite.newInstance()
 		
 		// Set raindrops to spawn from random position
 		let randomPosition = abs(CGFloat(random.nextInt()).truncatingRemainder(dividingBy: size.width))
-		rainDrop.position = CGPoint(x: randomPosition, y: size.height)
-		rainDrop.zPosition = 2
+		raindrop.position = CGPoint(x: randomPosition, y: size.height)
+		raindrop.zPosition = 2
 		
-		// Put RainDrop into RainDropCategory and set its collision to FloorCategory and RedSpotCategory
-		rainDrop.physicsBody?.categoryBitMask = RainDropCategory
-		rainDrop.physicsBody?.contactTestBitMask = FloorCategory | RedSpotCategory
-		
-		addChild(rainDrop)
+		addChild(raindrop)
 	}
 	
 	// Call Red
@@ -91,7 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	
 	// Determine the position for Red to move
 	func whereToMove() {
-		redspot = RedSpot.newInstance()
+		redspot = RedSpotSprite.newInstance()
 		var moveToPosition : CGFloat = CGFloat(random.nextInt())
 		moveToPosition = moveToPosition.truncatingRemainder(dividingBy: size.width - redMoveMargin * 2)
 		moveToPosition = CGFloat(abs(moveToPosition))
@@ -113,10 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		switch otherBody.categoryBitMask {
 		case RainDropCategory:
-			let scaleUpAction = SKAction.scale(to: 1.2, duration: 0.1)
-			let scaleDownAction = SKAction.scale(to: 1.0, duration: 0.1)
-			let scaleSequence = SKAction.sequence([scaleUpAction, scaleDownAction])
-			cloud.run(scaleSequence)
+			cloud.cloudRecoil()
 			
 			// Add score + 1 when cloud is hit
 			hud.addPoint()
@@ -138,6 +135,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		switch otherBody.categoryBitMask {
 		case RainDropCategory:
 			self.run(redIsHitSound)
+			redheart.redHeartRecoil()
 			redHitPoints -= 1
 			redHitPointsNode.text = "\(redHitPoints)"
 			
@@ -192,10 +190,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		self.physicsWorld.contactDelegate = self
 		
-		// Add rain sound
-		let ambienceTrack = SoundManager.sharedInstance.startPlaying(soundName: "rain", fileExtension: "mp3")
-		ambienceTrack?.volume = 0.3
-		
 		// Add HUD
 		hud.setup(size: size)
 		addChild(hud)
@@ -226,7 +220,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		addChild(cloud)
 		
 		spawnRed()
-		whereToMove()
 	}
 	
 	func didBegin(_ contact: SKPhysicsContact) {
@@ -267,6 +260,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			motionManager.accelerometerUpdateInterval = 0.1
 			motionManager.startAccelerometerUpdates()
 		}
+		
+		// Add rain sound
+		let ambienceTrack = SoundManager.sharedInstance.startPlaying(soundName: "rain", fileExtension: "mp3")
+		ambienceTrack?.volume = 0.3
+		
+		// Tell Red where to move
+		whereToMove()
 	}
 	
 	override func willMove(from view: SKView) {
@@ -297,12 +297,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			spawnRainDrop()
 		}
 		
-		// Gradually reduce the spawn rate after 10 seconds
-		spawnRateReductionTimer += dt
-		if spawnRateReductionTimer >= 10 {
-			// Gradually reduce the spawn rate over time
-			let rateReductionSpeed: Double = 0.1 // Adjust the speed of reduction
-			rainDropSpawnRate -= rateReductionSpeed * dt
+		// Gradually increase the spawn rate over 10 seconds
+		spawnRateAdditionTimer += dt
+		if spawnRateAdditionTimer >= 10 {
+			// Gradually increase the spawn rate by 0.1
+			let rateAdditionSpeed: Double = 0.1
+			rainDropSpawnRate -= rateAdditionSpeed * dt
 
 			// Ensure the spawn rate doesn't go below 0.3
 			rainDropSpawnRate = max(0.3, rainDropSpawnRate)
@@ -333,9 +333,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		// Make Red move to Red Spot position
 		red.update(deltaTime: dt, moveLocation: redspot.position)
 		
-		// Update Red's Hit Points position to follow Red only if Red has moved
+		// Update Red's Hit Points and Red's Heart position to follow Red only if Red has moved
 		if red.hasMoved {
-			redHitPointsNode.position = CGPoint(x: red.position.x, y: red.position.y + 80)
+			redHitPointsNode.position = CGPoint(x: red.position.x + 25, y: red.position.y + 80)
+			redheart.position = CGPoint(x: redHitPointsNode.position.x - redHitPointsNode.frame.width / 2 - 30, y: redHitPointsNode.position.y + 15)
 		}
 	}
+	
+	
 }
