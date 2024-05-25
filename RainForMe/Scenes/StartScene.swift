@@ -26,7 +26,7 @@ class StartScene : SKScene {
 		
 		title.text = "A Rainy Day"
 		title.fontSize = 90
-		title.position = CGPoint(x: size.width / 2, y: size.height / 2 + 100)
+		title.position = CGPoint(x: size.width / 2, y: size.height / 2 + title.frame.height / 2 + 50)
 		title.zPosition = 1
 		addChild(title)
 		
@@ -37,12 +37,13 @@ class StartScene : SKScene {
 		addChild(playButton)
 		
 		red = RedSprite.newInstance()
-		red.position = CGPoint(x: frame.midX, y: frame.midY / 3)
+		red.position = CGPoint(x: playButton.position.x, y: frame.midY / 3)
 		red.zPosition = 3
 		addChild(red)
 	}
 	
 	override func didMove(to view: SKView) {
+		// Tell Red to stay idle when scene is presented
 		red.redIsIdle()
 	}
 	

@@ -27,7 +27,7 @@ public class CloudSprite : SKSpriteNode {
 		return cloud
 	}
 	
-	public func cloudRecoil() {
+	public func cloudRecoilWhenHit() {
 		if action(forKey: cloudRecoilKey) == nil {
 			let scaleUpAction = SKAction.scale(to: 1.3, duration: 0.1)
 			let scaleDownAction = SKAction.scale(to: 1.0, duration: 0.1)

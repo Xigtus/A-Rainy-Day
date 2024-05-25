@@ -75,7 +75,7 @@ public class RedSprite : SKSpriteNode {
 	
 	// Idle action for Red
 	public func redIsIdle() {
-		idleTime = TimeInterval.random(in: 2.0...4.0)
+		idleTime = TimeInterval.random(in: 1.5...4.0)
 		removeAction(forKey: runningActionKey)
 		removeAction(forKey: fallingActionKey)
 		if action(forKey: idleActionKey) == nil {

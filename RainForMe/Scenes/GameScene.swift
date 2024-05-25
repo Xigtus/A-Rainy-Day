@@ -85,7 +85,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		red.position = CGPoint(x: frame.midX, y: frame.midY / 3)
 		
 		addChild(red)
-		red.redIsIdle()
 		showHitPoints()
 		
 		// Reset score
@@ -116,7 +115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		switch otherBody.categoryBitMask {
 		case RainDropCategory:
-			cloud.cloudRecoil()
+			cloud.cloudRecoilWhenHit()
 			
 			// Add score + 1 when cloud is hit
 			hud.addPoint()
@@ -138,7 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		switch otherBody.categoryBitMask {
 		case RainDropCategory:
 			self.run(redIsHitSound)
-			redheart.redHeartRecoil()
+			redheart.redHeartRecoilWhenHit()
 			redHitPoints -= 1
 			redHitPointsNode.text = "\(redHitPoints)"
 			
@@ -151,6 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				let fallingDuration = TimeInterval(fallFrames.count) * 0.2
 				let waitAction = SKAction.wait(forDuration: fallingDuration)
 				let resetAction = SKAction.run {
+					self.rainDropSpawnRate = 1.5
 					self.redHitPoints = 10
 					self.redHitPointsNode.text = "\(self.redHitPoints)"
 				}
@@ -275,6 +275,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		// Add rain sound
 		ambienceTrack = SoundManager.sharedInstance.startPlaying(soundName: "rain", fileExtension: "mp3")
 		ambienceTrack?.volume = 0.3
+		
+		// Tell Red to stay idle when scene is presented
+		red.redIsIdle()
 		
 		// Tell Red where to move
 		whereToMove()

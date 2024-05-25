@@ -44,6 +44,10 @@ class TutorialScene : SKScene {
 		firstStepTwo.position = CGPoint(x: firstStepOne.position.x - firstStepOne.frame.width / 2 + firstStepTwo.frame.width / 2, y: firstStepOne.position.y - firstStepOne.frame.height / 2 - firstStepTwo.frame.height / 2 - 15)
 		firstStepTwo.zPosition = 1
 		addChild(firstStepTwo)
+		
+		cloud.position = CGPoint(x: firstStepOne.position.x + firstStepOne.frame.width / 2 + cloud.frame.width / 2 + 20, y: firstStepOne.position.y - firstStepOne.frame.height / 2)
+		cloud.zPosition = 1
+		addChild(cloud)
 	
 		secondStep.text = "DON'T let Red get caught in the rain!"
 		secondStep.fontSize = 30
@@ -51,19 +55,15 @@ class TutorialScene : SKScene {
 		secondStep.zPosition = 1
 		addChild(secondStep)
 		
+		red.position = CGPoint(x: secondStep.position.x + secondStep.frame.width / 2 + red.frame.width / 2 + 20, y: secondStep.position.y - secondStep.frame.height / 2 + 20)
+		red.zPosition = 1
+		addChild(red)
+		
 		tapToStart.text = "Tap anywhere to start"
 		tapToStart.fontSize = 30
 		tapToStart.position = CGPoint(x: frame.midX, y: frame.minY + 70)
 		tapToStart.zPosition = 1
 		addChild(tapToStart)
-		
-		cloud.position = CGPoint(x: firstStepOne.position.x + firstStepOne.frame.width / 2 + cloud.frame.width / 2 + 20, y: firstStepOne.position.y - firstStepOne.frame.height / 2)
-		cloud.zPosition = 1
-		addChild(cloud)
-		
-		red.position = CGPoint(x: secondStep.position.x + secondStep.frame.width / 2 + red.frame.width / 2 + 20, y: secondStep.position.y - secondStep.frame.height / 2 + 20)
-		red.zPosition = 1
-		addChild(red)
 	}
 	
 	override public func didMove(to view: SKView) {

@@ -8,12 +8,13 @@
 import SpriteKit
 
 class HudNode : SKNode {
+	private let highScoreKey = "red_highscore"
 	private let scoreNode = SKLabelNode(fontNamed: "NicoClean-Regular")
 	private let highScoreNode = SKLabelNode(fontNamed: "NicoClean-Regular")
 	private let highScoreText = SKLabelNode(fontNamed: "NicoClean-Regular")
 	
 	private(set) var score : Int = 0
-	private(set) var highScore : Int = 80
+	private(set) var highScore : Int = 0
 	
 	private let backButtonNormal = SKTexture(imageNamed: "back_button_normal")
 	private let backButtonPressed = SKTexture(imageNamed: "back_button_pressed")
@@ -23,6 +24,19 @@ class HudNode : SKNode {
 	var backButtonAction : (() -> ())?
 	
 	public func setup(size: CGSize) {
+		// Set UserDefaults
+		let userDefaults = UserDefaults.standard
+		
+		// Set high score to 10
+//		userDefaults.set(80, forKey: highScoreKey)
+//		highScore = 80
+		
+		// Check if high score exists. If not, set it to 80
+		if userDefaults.object(forKey: highScoreKey) == nil {
+			userDefaults.set(80, forKey: highScoreKey)
+		}
+		highScore = userDefaults.integer(forKey: highScoreKey)
+		
 		// Set HUD for score
 		scoreNode.text = "\(score)"
 		scoreNode.fontSize = 70
@@ -54,8 +68,11 @@ class HudNode : SKNode {
 	public func addPoint() {
 		score += 1
 
-		if score >= highScore {
+		if score > highScore {
 			highScore = score
+			
+			let userDefaults = UserDefaults.standard
+			userDefaults.set(highScore, forKey: highScoreKey)
 		}
 
 		updateScoreboard()

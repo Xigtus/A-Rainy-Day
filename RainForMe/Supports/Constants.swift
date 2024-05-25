@@ -12,3 +12,5 @@ let FloorCategory    : UInt32 = 0x1 << 2
 let CloudCategory : UInt32 = 0x1 << 3
 let RedCategory : UInt32 = 0x1 << 4
 let RedSpotCategory : UInt32 = 0x1 << 5
+
+let highScoreKey = "red_highscore"

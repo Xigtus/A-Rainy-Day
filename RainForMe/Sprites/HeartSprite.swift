@@ -17,7 +17,7 @@ public class HeartSprite : SKSpriteNode {
 		return redHeart
 	}
 	
-	public func redHeartRecoil() {
+	public func redHeartRecoilWhenHit() {
 		if action(forKey: heartRecoilKey) == nil {
 			let scaleUpAction = SKAction.scale(to: 1.0, duration: 0.1)
 			let scaleDownAction = SKAction.scale(to: 0.7, duration: 0.1)

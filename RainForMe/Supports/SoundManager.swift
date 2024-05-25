@@ -17,7 +17,7 @@ class SoundManager : NSObject, AVAudioPlayerDelegate {
 			do {
 				let audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
 				audioPlayer.delegate = self
-				audioPlayer.numberOfLoops = -1
+				audioPlayer.numberOfLoops = -1 // Loop sound after finished playing
 				audioPlayers.append(audioPlayer)
 				audioPlayer.prepareToPlay()
 				audioPlayer.play()
