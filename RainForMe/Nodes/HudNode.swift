@@ -27,10 +27,6 @@ class HudNode : SKNode {
 		// Set UserDefaults
 		let userDefaults = UserDefaults.standard
 		
-		// Set high score to 10
-//		userDefaults.set(80, forKey: highScoreKey)
-//		highScore = 80
-		
 		// Check if high score exists. If not, set it to 80
 		if userDefaults.object(forKey: highScoreKey) == nil {
 			userDefaults.set(80, forKey: highScoreKey)

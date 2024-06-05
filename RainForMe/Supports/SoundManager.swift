@@ -10,7 +10,7 @@ import AVFoundation
 class SoundManager : NSObject, AVAudioPlayerDelegate {
 	static let sharedInstance = SoundManager()
 	
-	var audioPlayers: [AVAudioPlayer] = []
+	var audioPlayers: [AVAudioPlayer] = [] // To play more than one sound
 
 	public func startPlaying(soundName: String, fileExtension: String) -> AVAudioPlayer? {
 		if let soundURL = Bundle.main.url(forResource: soundName, withExtension: fileExtension) {

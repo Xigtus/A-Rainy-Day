@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E4319BD02C103D4800345F80 /* Attribution.md in Resources */ = {isa = PBXBuildFile; fileRef = E4319BCF2C103D4800345F80 /* Attribution.md */; };
 		E43F4C7E2BF7A37500725F22 /* BackgroundSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F4C7D2BF7A37500725F22 /* BackgroundSprite.swift */; };
 		E43F4C802BF7A4C800725F22 /* rain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E43F4C7F2BF7A4C800725F22 /* rain.mp3 */; };
 		E43F4C822BF7A56400725F22 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F4C812BF7A56400725F22 /* SoundManager.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E4319BCF2C103D4800345F80 /* Attribution.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Attribution.md; sourceTree = "<group>"; };
 		E43F4C7D2BF7A37500725F22 /* BackgroundSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSprite.swift; sourceTree = "<group>"; };
 		E43F4C7F2BF7A4C800725F22 /* rain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rain.mp3; sourceTree = "<group>"; };
 		E43F4C812BF7A56400725F22 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 		E4BE816D2BF36E2E0076146D /* RainForMe */ = {
 			isa = PBXGroup;
 			children = (
+				E4319BCF2C103D4800345F80 /* Attribution.md */,
 				E43F4C8E2BF8D28C00725F22 /* Info.plist */,
 				E4BE816E2BF36E2E0076146D /* AppDelegate.swift */,
 				E4BE81762BF36E2E0076146D /* GameViewController.swift */,
@@ -240,6 +243,7 @@
 			files = (
 				E43F4C932BF9303B00725F22 /* bubble.wav in Resources */,
 				E4771C4B2BFC8697000A1D13 /* LeafParticles.sks in Resources */,
+				E4319BD02C103D4800345F80 /* Attribution.md in Resources */,
 				E4771C4C2BFC8697000A1D13 /* Assets.xcassets in Resources */,
 				E4BE81712BF36E2E0076146D /* GameScene.sks in Resources */,
 				E43F4C842BF7A87700725F22 /* calm.mp3 in Resources */,

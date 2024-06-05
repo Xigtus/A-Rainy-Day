@@ -29,8 +29,8 @@ public class RedSprite : SKSpriteNode {
 	}
 	
 	// Frames for run action
-	private let runFrames: [SKTexture] = (0...7).map {
-		SKTexture(imageNamed: "red_run\($0)")
+	private let runFrames: [SKTexture] = (0...7).map { i in
+		SKTexture(imageNamed: "red_run\(i)")
 	}
 	
 	// Frames for fall action

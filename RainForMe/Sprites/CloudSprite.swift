@@ -27,6 +27,7 @@ public class CloudSprite : SKSpriteNode {
 		return cloud
 	}
 	
+	// Add scale up and scale down animation when Cloud is hit by Rain Drop
 	public func cloudRecoilWhenHit() {
 		if action(forKey: cloudRecoilKey) == nil {
 			let scaleUpAction = SKAction.scale(to: 1.3, duration: 0.1)
@@ -36,6 +37,7 @@ public class CloudSprite : SKSpriteNode {
 		}
 	}
 	
+	// Animation for Cloud on TutorialScene
 	public func cloudMoveTutorial() {
 		if action(forKey: cloudDemoKey) == nil {
 			let waitAction = SKAction.wait(forDuration: 0.5)
